@@ -7,6 +7,8 @@ var __extends = (this && this.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -43,7 +45,7 @@ var list2 = [7, 8, 9];
 // Mixed type array
 var myInfo = ["Mostafa", 29];
 // let myInfo1: [string, number] = [29, "Mostafa"]; // Not valid
-// enum keyword
+// enum keyword (default value 0 and increment ++)
 var Color;
 (function (Color) {
     Color[Color["Red"] = 3] = "Red";
@@ -53,7 +55,67 @@ var Color;
 ;
 var c = Color.Blue;
 console.log(c); // 5
-// To get rid of variable types declaration, use any in typescrpt
+// Enum as Return Type
+var PrintMedia;
+(function (PrintMedia) {
+    PrintMedia[PrintMedia["Newspaper"] = 1] = "Newspaper";
+    PrintMedia[PrintMedia["Newsletter"] = 2] = "Newsletter";
+    PrintMedia[PrintMedia["Magazine"] = 3] = "Magazine";
+    PrintMedia[PrintMedia["Book"] = 4] = "Book";
+})(PrintMedia || (PrintMedia = {}));
+// function to check for the type of media
+function getMedia(mediaName) {
+    if (mediaName === 'Forbes' || mediaName === 'Outlook') {
+        return PrintMedia.Magazine;
+    }
+}
+var mediaType = getMedia('Forbes'); // returns Magazine
+// Computed Enum
+var PrintMedia2;
+(function (PrintMedia2) {
+    PrintMedia2[PrintMedia2["Newspaper"] = 1] = "Newspaper";
+    PrintMedia2[PrintMedia2["Newsletter"] = getPrintMediaCode('newsletter')] = "Newsletter";
+    PrintMedia2[PrintMedia2["Magazine"] = PrintMedia2.Newsletter * 3] = "Magazine";
+    PrintMedia2[PrintMedia2["Book"] = 10] = "Book";
+})(PrintMedia2 || (PrintMedia2 = {}));
+function getPrintMediaCode(mediaName) {
+    if (mediaName === 'newsletter') {
+        return 3;
+    }
+}
+PrintMedia2.Newsletter; // returns 3
+PrintMedia2.Magazine; // returns 9
+// String Enum
+var PrintMedia3;
+(function (PrintMedia3) {
+    PrintMedia3["Newspaper"] = "NEWSPAPER";
+    PrintMedia3["Newsletter"] = "NEWSLETTER";
+    PrintMedia3["Magazine"] = "MAGAZINE";
+    PrintMedia3["Book"] = "BOOK";
+})(PrintMedia3 || (PrintMedia3 = {}));
+// Access String Enum that contain both string and numeric values
+PrintMedia3.Newspaper; //returns NEWSPAPER
+PrintMedia3['Magazine']; //returns MAGAZINE
+// Heterogeneous Enum
+var Status;
+(function (Status) {
+    Status["Active"] = "ACTIVE";
+    Status[Status["Deactivate"] = 1] = "Deactivate";
+    Status[Status["Pending"] = 2] = "Pending";
+})(Status || (Status = {}));
+// Reverse Mapping - Enum
+// access the value of a member and also a member name from its value
+var PrintMedia4;
+(function (PrintMedia4) {
+    PrintMedia4[PrintMedia4["Newspaper"] = 5] = "Newspaper";
+    PrintMedia4[PrintMedia4["Newsletter"] = 6] = "Newsletter";
+    PrintMedia4[PrintMedia4["Magazine"] = 7] = "Magazine";
+    PrintMedia4[PrintMedia4["Book"] = 8] = "Book";
+})(PrintMedia4 || (PrintMedia4 = {}));
+PrintMedia4.Magazine; // returns  7
+PrintMedia4["Magazine"]; // returns  7
+PrintMedia4[7]; // returns  Magazine
+// To get rid of variable types declaration, use any in typescript
 var anyValue = "Mostafa";
 anyValue = false;
 anyValue = 1;

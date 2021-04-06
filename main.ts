@@ -44,20 +44,83 @@ let list2: Array<number> = [7, 8, 9];
 let myInfo: [string, number] = ["Mostafa", 29];
 // let myInfo1: [string, number] = [29, "Mostafa"]; // Not valid
 
-// enum keyword
+// enum keyword (default value 0 and increment ++)
 enum Color { Red=3, Green, Blue };
 let c: Color = Color.Blue;
 
 console.log(c); // 5
 
-// To get rid of variable types declaration, use any in typescrpt
+// Enum as Return Type
+enum PrintMedia {
+    Newspaper = 1,
+    Newsletter,
+    Magazine,
+    Book
+}
+
+// function to check for the type of media
+function getMedia(mediaName: string): PrintMedia {
+    if (  mediaName === 'Forbes' || mediaName === 'Outlook') {
+        return PrintMedia.Magazine;
+    }
+ }
+
+let mediaType: PrintMedia = getMedia('Forbes'); // returns Magazine
+
+// Computed Enum
+enum PrintMedia2 {
+    Newspaper = 1,
+    Newsletter = getPrintMediaCode('newsletter'),
+    Magazine = Newsletter * 3,
+    Book = 10
+}
+
+function getPrintMediaCode(mediaName: string): number {
+    if (mediaName === 'newsletter') {
+        return 3;
+    }
+}
+
+PrintMedia2.Newsletter; // returns 3
+PrintMedia2.Magazine; // returns 9
+
+// String Enum
+enum PrintMedia3 {
+    Newspaper = "NEWSPAPER",
+    Newsletter = "NEWSLETTER",
+    Magazine = "MAGAZINE",
+    Book = "BOOK"
+}
+// Access String Enum that contain both string and numeric values
+PrintMedia3.Newspaper; //returns NEWSPAPER
+PrintMedia3['Magazine'];//returns MAGAZINE
+
+// Heterogeneous Enum
+enum Status { 
+    Active = 'ACTIVE', 
+    Deactivate = 1, 
+    Pending
+}
+
+// Reverse Mapping - Enum
+// access the value of a member and also a member name from its value
+enum PrintMedia4 {
+    Newspaper = 5,
+    Newsletter,
+    Magazine,
+    Book
+  }
+  
+  PrintMedia4.Magazine;   // returns  7
+  PrintMedia4["Magazine"];// returns  7
+  PrintMedia4[7];         // returns  Magazine
+
+// To get rid of variable types declaration, use any in typescript
 let anyValue: any = "Mostafa";
 anyValue = false;
 anyValue = 1;
 
 console.log(anyValue); // 1
-
-
 
 let myVar: unknown = 111;
 
